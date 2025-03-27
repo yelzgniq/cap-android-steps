@@ -35,7 +35,7 @@ const requestPermission = async () => {
   return result.granted;
 };
 
-const getStepsForPeriod = async (period: 'hour' | 'day' | 'all') => {
+const getStepsForPeriod = async (period: 'all') => {
   const result = await CapAndroidSteps.getStepsForPeriod({ period });
   return result.count;
 };
@@ -50,7 +50,6 @@ const getRawSensorValues = async () => {
 
 <docgen-index>
 
-* [`invertString(...)`](#invertstring)
 * [`requestActivityRecognitionPermission()`](#requestactivityrecognitionpermission)
 * [`getStepsForPeriod(...)`](#getstepsforperiod)
 * [`getRawSensorValues()`](#getrawsensorvalues)
@@ -61,23 +60,6 @@ const getRawSensorValues = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### invertString(...)
-
-```typescript
-invertString(options: InvertStringOptions) => Promise<InvertStringResult>
-```
-
-Inverts the provided string (reverses it).
-This method has nothing to do with screen orientation.
-
-| Param         | Type                                                                |
-| ------------- | ------------------------------------------------------------------- |
-| **`options`** | <code><a href="#invertstringoptions">InvertStringOptions</a></code> |
-
-**Returns:** <code>Promise&lt;<a href="#invertstringresult">InvertStringResult</a>&gt;</code>
-
---------------------
 
 
 ### requestActivityRecognitionPermission()
@@ -129,20 +111,6 @@ Requires activity recognition permission on Android 10+.
 ### Interfaces
 
 
-#### InvertStringResult
-
-| Prop        | Type                | Description          |
-| ----------- | ------------------- | -------------------- |
-| **`value`** | <code>string</code> | The inverted string. |
-
-
-#### InvertStringOptions
-
-| Prop        | Type                | Description           |
-| ----------- | ------------------- | --------------------- |
-| **`value`** | <code>string</code> | The string to invert. |
-
-
 #### PermissionResult
 
 | Prop          | Type                 | Description                         |
@@ -155,7 +123,7 @@ Requires activity recognition permission on Android 10+.
 | Prop            | Type                                  | Description                                                                                   |
 | --------------- | ------------------------------------- | --------------------------------------------------------------------------------------------- |
 | **`count`**     | <code>number</code>                   | The number of steps counted during the specified period.                                      |
-| **`period`**    | <code>'hour' \| 'day' \| 'all'</code> | The period for which the step count was calculated.                                           |
+| **`period`**    | <code>'all' \| 'day' \| 'hour'</code> | The period for which the step count was calculated.                                           |
 | **`startTime`** | <code>number \| null</code>           | The start time of the period in milliseconds. For 'all' period, this is the device boot time. |
 | **`endTime`**   | <code>number</code>                   | The end time of the period in milliseconds (current time).                                    |
 
