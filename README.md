@@ -152,10 +152,12 @@ Requires activity recognition permission on Android 10+.
 
 #### StepCountResult
 
-| Prop         | Type                                  | Description                                              |
-| ------------ | ------------------------------------- | -------------------------------------------------------- |
-| **`count`**  | <code>number</code>                   | The number of steps counted during the specified period. |
-| **`period`** | <code>'hour' \| 'day' \| 'all'</code> | The period for which the step count was calculated.      |
+| Prop            | Type                                  | Description                                                                                   |
+| --------------- | ------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **`count`**     | <code>number</code>                   | The number of steps counted during the specified period.                                      |
+| **`period`**    | <code>'hour' \| 'day' \| 'all'</code> | The period for which the step count was calculated.                                           |
+| **`startTime`** | <code>number \| null</code>           | The start time of the period in milliseconds. For 'all' period, this is the device boot time. |
+| **`endTime`**   | <code>number</code>                   | The end time of the period in milliseconds (current time).                                    |
 
 
 #### StepPeriodOptions
@@ -183,7 +185,9 @@ Requires activity recognition permission on Android 10+.
 
 Construct a type with a set of properties K of type T
 
-<code>{ [P in K]: T; }</code>
+<code>{
+ [P in K]: T;
+ }</code>
 
 </docgen-api>
 

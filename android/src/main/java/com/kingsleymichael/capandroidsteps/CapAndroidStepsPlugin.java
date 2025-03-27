@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.SystemClock;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import java.util.HashMap;
@@ -56,7 +57,9 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
     public void load() {
         implementation = new CapAndroidSteps(getBridge());
 
-        long bootTimeMs = SystemClock.elapsedRealtime();
+        long currentTimeMs = System.currentTimeMillis(); // Time now since epoch
+        long elapsedRealtimeMs = SystemClock.elapsedRealtime(); // Time now since boot
+        long bootTimeMs = currentTimeMs - elapsedRealtimeMs; // Approximate time of boot since epoch
         
         // Initialize sensor manager
         sensorManager = (SensorManager) getActivity().getSystemService(getActivity().SENSOR_SERVICE);
@@ -191,6 +194,8 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
                 JSObject ret = new JSObject();
                 ret.put("count", JSONObject.NULL);
                 ret.put("period", period);
+                ret.put("startTime", JSONObject.NULL);
+                ret.put("endTime", System.currentTimeMillis());
                 call.resolve(ret);
                 return;
             }
@@ -201,6 +206,8 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
             JSObject ret = new JSObject();
             ret.put("count", totalSteps);
             ret.put("period", period);
+            ret.put("startTime", SystemClock.elapsedRealtime());
+            ret.put("endTime", System.currentTimeMillis());
             call.resolve(ret);
             return;
         }
@@ -211,6 +218,8 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
             JSObject ret = new JSObject();
             ret.put("count", JSONObject.NULL);
             ret.put("period", period);
+            ret.put("startTime", JSONObject.NULL);
+            ret.put("endTime", System.currentTimeMillis());
             call.resolve(ret);
             return;
         }
@@ -245,6 +254,8 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
             JSObject ret = new JSObject();
             ret.put("count", JSONObject.NULL);
             ret.put("period", period);
+            ret.put("startTime", periodStartTime);
+            ret.put("endTime", System.currentTimeMillis());
             call.resolve(ret);
             return;
         }
@@ -263,6 +274,8 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
         JSObject ret = new JSObject();
         ret.put("count", stepsInPeriod);
         ret.put("period", period);
+        ret.put("startTime", periodStartTime);
+        ret.put("endTime", System.currentTimeMillis());
         call.resolve(ret);
     }
 

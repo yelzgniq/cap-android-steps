@@ -36,9 +36,22 @@ export class CapAndroidStepsWeb
     // Web implementation cannot access device step counters
     // Return a dummy value of 0 steps
     const period = options?.period || 'day';
+    const now = Date.now();
+    let startTime: number | null = null;
+    
+    if (period === 'hour') {
+      startTime = now - (60 * 60 * 1000); // 1 hour ago
+    } else if (period === 'day') {
+      startTime = now - (24 * 60 * 60 * 1000); // 24 hours ago
+    } else if (period === 'all') {
+      startTime = now - (7 * 24 * 60 * 60 * 1000); // Simulate a week ago as boot time
+    }
+    
     return {
       count: 0,
-      period
+      period,
+      startTime,
+      endTime: now
     };
   }
 

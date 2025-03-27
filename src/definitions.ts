@@ -63,6 +63,15 @@ export interface StepCountResult {
    * The period for which the step count was calculated.
    */
   period: 'hour' | 'day' | 'all';
+  /**
+   * The start time of the period in milliseconds.
+   * For 'all' period, this is the device boot time.
+   */
+  startTime: number | null;
+  /**
+   * The end time of the period in milliseconds (current time).
+   */
+  endTime: number;
 }
 
 export interface SensorValuesResult {
