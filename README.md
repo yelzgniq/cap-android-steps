@@ -50,6 +50,7 @@ const getRawSensorValues = async () => {
 
 <docgen-index>
 
+* [`invertString(...)`](#invertstring)
 * [`requestActivityRecognitionPermission()`](#requestactivityrecognitionpermission)
 * [`getStepsForPeriod(...)`](#getstepsforperiod)
 * [`getRawSensorValues()`](#getrawsensorvalues)
@@ -60,6 +61,23 @@ const getRawSensorValues = async () => {
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### invertString(...)
+
+```typescript
+invertString(options: InvertStringOptions) => Promise<InvertStringResult>
+```
+
+Inverts the provided string (reverses it).
+This method has nothing to do with screen orientation.
+
+| Param         | Type                                                                |
+| ------------- | ------------------------------------------------------------------- |
+| **`options`** | <code><a href="#invertstringoptions">InvertStringOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#invertstringresult">InvertStringResult</a>&gt;</code>
+
+--------------------
 
 
 ### requestActivityRecognitionPermission()
@@ -111,6 +129,20 @@ Requires activity recognition permission on Android 10+.
 ### Interfaces
 
 
+#### InvertStringResult
+
+| Prop        | Type                | Description          |
+| ----------- | ------------------- | -------------------- |
+| **`value`** | <code>string</code> | The inverted string. |
+
+
+#### InvertStringOptions
+
+| Prop        | Type                | Description           |
+| ----------- | ------------------- | --------------------- |
+| **`value`** | <code>string</code> | The string to invert. |
+
+
 #### PermissionResult
 
 | Prop          | Type                 | Description                         |
@@ -151,9 +183,7 @@ Requires activity recognition permission on Android 10+.
 
 Construct a type with a set of properties K of type T
 
-<code>{
- [P in K]: T;
- }</code>
+<code>{ [P in K]: T; }</code>
 
 </docgen-api>
 

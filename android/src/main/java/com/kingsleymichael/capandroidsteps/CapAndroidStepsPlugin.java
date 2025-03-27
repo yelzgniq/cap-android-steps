@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "CapAndroidSteps")
 public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener {
@@ -54,6 +55,9 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
     @Override
     public void load() {
         implementation = new CapAndroidSteps(getBridge());
+
+        long bootTimeMs = SystemClock.elapsedRealtime();
+        
         // Initialize sensor manager
         sensorManager = (SensorManager) getActivity().getSystemService(getActivity().SENSOR_SERVICE);
         if (sensorManager != null) {
@@ -182,7 +186,12 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
             if (initialStepCount == -1) {
                 // show message but also raw sensor values
                 Log.w(TAG, "lastStepCount value: " + lastStepCount); // added this line
-                call.reject("No step data available yet. Try again after walking a few steps.");
+                
+                // Return null instead of zero steps
+                JSObject ret = new JSObject();
+                ret.put("count", JSONObject.NULL);
+                ret.put("period", period);
+                call.resolve(ret);
                 return;
             }
             
@@ -198,7 +207,11 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
         
         // For hour and day periods, we need step history
         if (stepHistory.isEmpty()) {
-            call.reject("No step data available. Make sure step counting is active.");
+            // Return null instead of zero or rejecting
+            JSObject ret = new JSObject();
+            ret.put("count", JSONObject.NULL);
+            ret.put("period", period);
+            call.resolve(ret);
             return;
         }
         
@@ -227,10 +240,10 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
             }
         }
         
-        // If we don't have any readings in the period, return 0
+        // If we don't have any readings in the period, return null
         if (firstStepInPeriod < 0) {
             JSObject ret = new JSObject();
-            ret.put("count", 0);
+            ret.put("count", JSONObject.NULL);
             ret.put("period", period);
             call.resolve(ret);
             return;
@@ -333,7 +346,20 @@ public class CapAndroidStepsPlugin extends Plugin implements SensorEventListener
         
         // Check if we have any sensor data
         if (latestSensorValues == null) {
-            call.reject("No sensor data available yet. Try again after walking a few steps.");
+            // Return null values instead of rejecting
+            JSObject ret = new JSObject();
+            ret.put("values", JSONObject.NULL);
+            ret.put("stepCount", JSONObject.NULL);
+            if (stepSensor != null) {
+                ret.put("sensorName", stepSensor.getName());
+                ret.put("sensorVendor", stepSensor.getVendor());
+                ret.put("sensorVersion", stepSensor.getVersion());
+            } else {
+                ret.put("sensorName", JSONObject.NULL);
+                ret.put("sensorVendor", JSONObject.NULL);
+                ret.put("sensorVersion", JSONObject.NULL);
+            }
+            call.resolve(ret);
             return;
         }
         

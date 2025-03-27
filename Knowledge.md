@@ -17,6 +17,11 @@
 - `getStepsForPeriod()`: Gets step count for hour/day/all
 - `getRawSensorValues()`: Gets raw step sensor values
 
+## Error Handling
+- Plugin returns null values (JSONObject.NULL) instead of error messages when step data isn't available yet
+- This clearly indicates absence of data without being misleading (unlike zero values)
+- Client applications should check for null before using the values
+
 ## Known Issues
 - Web implementation uses type assertions (`as any`) to work around conflicts with built-in TypeScript DOM lib definitions
 - The plugin is primarily focused on Android step counting; iOS and web implementations provide basic orientation support 
